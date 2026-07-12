@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard,
   Package,
@@ -8,23 +8,64 @@ import {
   BarChart3,
   Bell,
   Boxes,
+  Building2,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useRole } from "@/lib/role";
+import { useAuth, ROLE_LABEL, type Role } from "@/lib/auth";
+import { toast } from "sonner";
 
-const nav = [
+type NavItem = {
+  to: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  roles?: Role[];
+};
+
+const nav: NavItem[] = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
   { to: "/assets", label: "Assets", icon: Package },
   { to: "/bookings", label: "Bookings", icon: CalendarClock },
   { to: "/maintenance", label: "Maintenance", icon: Wrench },
-  { to: "/audit", label: "Audit", icon: ClipboardCheck },
-  { to: "/reports", label: "Reports", icon: BarChart3 },
+  {
+    to: "/audit",
+    label: "Audit",
+    icon: ClipboardCheck,
+    roles: ["admin", "asset_manager"],
+  },
+  {
+    to: "/reports",
+    label: "Reports",
+    icon: BarChart3,
+    roles: ["admin", "asset_manager", "department_head"],
+  },
   { to: "/activity", label: "Activity & Alerts", icon: Bell },
-] as const;
+  {
+    to: "/organization",
+    label: "Organization Setup",
+    icon: Building2,
+    roles: ["admin"],
+  },
+];
 
 export function AppSidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const { role, setRole, userName } = useRole();
+  const { employee, role, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const items = nav.filter((n) => !n.roles || (role && n.roles.includes(role)));
+  const initials = (employee?.name ?? "?")
+    .split(" ")
+    .map((s) => s[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+  async function handleSignOut() {
+    await signOut();
+    toast.success("Signed out");
+    navigate({ to: "/auth" });
+  }
 
   return (
     <aside className="hidden md:flex md:w-60 lg:w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
@@ -45,7 +86,7 @@ export function AppSidebar() {
           Workspace
         </div>
         <ul className="space-y-0.5">
-          {nav.map((item) => {
+          {items.map((item) => {
             const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
             return (
               <li key={item.to}>
@@ -73,33 +114,23 @@ export function AppSidebar() {
       </nav>
 
       <div className="border-t border-sidebar-border p-4">
-        <div className="mb-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-          Signed in as
-        </div>
         <div className="mb-3 flex items-center gap-2.5">
           <div className="grid h-8 w-8 place-items-center rounded-full bg-accent text-accent-foreground text-xs font-semibold">
-            {userName
-              .split(" ")
-              .map((s) => s[0])
-              .join("")}
+            {initials}
           </div>
-          <div className="min-w-0">
-            <div className="truncate text-sm font-medium">{userName}</div>
-            <div className="truncate text-xs capitalize text-muted-foreground">{role}</div>
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-sm font-medium">{employee?.name ?? "—"}</div>
+            <div className="truncate text-xs text-muted-foreground">
+              {role ? ROLE_LABEL[role] : ""}
+            </div>
           </div>
         </div>
-        <label className="block text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-          View as
-        </label>
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value as typeof role)}
-          className="mt-1 w-full rounded-md border border-input bg-background px-2 py-1.5 text-xs"
+        <button
+          onClick={handleSignOut}
+          className="flex w-full items-center justify-center gap-1.5 rounded-md border border-input bg-background px-2 py-1.5 text-xs font-medium text-foreground hover:bg-accent"
         >
-          <option value="admin">Admin</option>
-          <option value="manager">Manager</option>
-          <option value="employee">Employee</option>
-        </select>
+          <LogOut className="h-3.5 w-3.5" /> Sign out
+        </button>
       </div>
     </aside>
   );
