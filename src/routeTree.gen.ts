@@ -9,180 +9,296 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ReportsRouteImport } from './routes/reports'
-import { Route as MaintenanceRouteImport } from './routes/maintenance'
-import { Route as BookingsRouteImport } from './routes/bookings'
-import { Route as AuditRouteImport } from './routes/audit'
-import { Route as AssetsRouteImport } from './routes/assets'
-import { Route as ActivityRouteImport } from './routes/activity'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as AppIndexRouteImport } from './routes/_app.index'
+import { Route as AuthForgotPasswordRouteImport } from './routes/auth.forgot-password'
+import { Route as AppReportsRouteImport } from './routes/_app.reports'
+import { Route as AppOrganizationRouteImport } from './routes/_app.organization'
+import { Route as AppMaintenanceRouteImport } from './routes/_app.maintenance'
+import { Route as AppBookingsRouteImport } from './routes/_app.bookings'
+import { Route as AppAuditRouteImport } from './routes/_app.audit'
+import { Route as AppAssetsRouteImport } from './routes/_app.assets'
+import { Route as AppActivityRouteImport } from './routes/_app.activity'
 
-const ReportsRoute = ReportsRouteImport.update({
-  id: '/reports',
-  path: '/reports',
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MaintenanceRoute = MaintenanceRouteImport.update({
-  id: '/maintenance',
-  path: '/maintenance',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BookingsRoute = BookingsRouteImport.update({
-  id: '/bookings',
-  path: '/bookings',
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuditRoute = AuditRouteImport.update({
-  id: '/audit',
-  path: '/audit',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AssetsRoute = AssetsRouteImport.update({
-  id: '/assets',
-  path: '/assets',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ActivityRoute = ActivityRouteImport.update({
-  id: '/activity',
-  path: '/activity',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
+const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
+} as any)
+const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AppReportsRoute = AppReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOrganizationRoute = AppOrganizationRouteImport.update({
+  id: '/organization',
+  path: '/organization',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMaintenanceRoute = AppMaintenanceRouteImport.update({
+  id: '/maintenance',
+  path: '/maintenance',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBookingsRoute = AppBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAuditRoute = AppAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAssetsRoute = AppAssetsRouteImport.update({
+  id: '/assets',
+  path: '/assets',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppActivityRoute = AppActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/activity': typeof ActivityRoute
-  '/assets': typeof AssetsRoute
-  '/audit': typeof AuditRoute
-  '/bookings': typeof BookingsRoute
-  '/maintenance': typeof MaintenanceRoute
-  '/reports': typeof ReportsRoute
+  '/': typeof AppIndexRoute
+  '/auth': typeof AuthRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/activity': typeof AppActivityRoute
+  '/assets': typeof AppAssetsRoute
+  '/audit': typeof AppAuditRoute
+  '/bookings': typeof AppBookingsRoute
+  '/maintenance': typeof AppMaintenanceRoute
+  '/organization': typeof AppOrganizationRoute
+  '/reports': typeof AppReportsRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/activity': typeof ActivityRoute
-  '/assets': typeof AssetsRoute
-  '/audit': typeof AuditRoute
-  '/bookings': typeof BookingsRoute
-  '/maintenance': typeof MaintenanceRoute
-  '/reports': typeof ReportsRoute
+  '/auth': typeof AuthRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/activity': typeof AppActivityRoute
+  '/assets': typeof AppAssetsRoute
+  '/audit': typeof AppAuditRoute
+  '/bookings': typeof AppBookingsRoute
+  '/maintenance': typeof AppMaintenanceRoute
+  '/organization': typeof AppOrganizationRoute
+  '/reports': typeof AppReportsRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/activity': typeof ActivityRoute
-  '/assets': typeof AssetsRoute
-  '/audit': typeof AuditRoute
-  '/bookings': typeof BookingsRoute
-  '/maintenance': typeof MaintenanceRoute
-  '/reports': typeof ReportsRoute
+  '/_app': typeof AppRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/_app/activity': typeof AppActivityRoute
+  '/_app/assets': typeof AppAssetsRoute
+  '/_app/audit': typeof AppAuditRoute
+  '/_app/bookings': typeof AppBookingsRoute
+  '/_app/maintenance': typeof AppMaintenanceRoute
+  '/_app/organization': typeof AppOrganizationRoute
+  '/_app/reports': typeof AppReportsRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
+    | '/reset-password'
     | '/activity'
     | '/assets'
     | '/audit'
     | '/bookings'
     | '/maintenance'
+    | '/organization'
     | '/reports'
+    | '/auth/forgot-password'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
+    | '/auth'
+    | '/reset-password'
     | '/activity'
     | '/assets'
     | '/audit'
     | '/bookings'
     | '/maintenance'
+    | '/organization'
     | '/reports'
+    | '/auth/forgot-password'
+    | '/'
   id:
     | '__root__'
-    | '/'
-    | '/activity'
-    | '/assets'
-    | '/audit'
-    | '/bookings'
-    | '/maintenance'
-    | '/reports'
+    | '/_app'
+    | '/auth'
+    | '/reset-password'
+    | '/_app/activity'
+    | '/_app/assets'
+    | '/_app/audit'
+    | '/_app/bookings'
+    | '/_app/maintenance'
+    | '/_app/organization'
+    | '/_app/reports'
+    | '/auth/forgot-password'
+    | '/_app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  ActivityRoute: typeof ActivityRoute
-  AssetsRoute: typeof AssetsRoute
-  AuditRoute: typeof AuditRoute
-  BookingsRoute: typeof BookingsRoute
-  MaintenanceRoute: typeof MaintenanceRoute
-  ReportsRoute: typeof ReportsRoute
+  AppRoute: typeof AppRouteWithChildren
+  AuthRoute: typeof AuthRouteWithChildren
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/reports': {
-      id: '/reports'
-      path: '/reports'
-      fullPath: '/reports'
-      preLoaderRoute: typeof ReportsRouteImport
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/maintenance': {
-      id: '/maintenance'
-      path: '/maintenance'
-      fullPath: '/maintenance'
-      preLoaderRoute: typeof MaintenanceRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/bookings': {
-      id: '/bookings'
-      path: '/bookings'
-      fullPath: '/bookings'
-      preLoaderRoute: typeof BookingsRouteImport
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/audit': {
-      id: '/audit'
-      path: '/audit'
-      fullPath: '/audit'
-      preLoaderRoute: typeof AuditRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/assets': {
-      id: '/assets'
-      path: '/assets'
-      fullPath: '/assets'
-      preLoaderRoute: typeof AssetsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/activity': {
-      id: '/activity'
-      path: '/activity'
-      fullPath: '/activity'
-      preLoaderRoute: typeof ActivityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
+    '/_app/': {
+      id: '/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/auth/forgot-password': {
+      id: '/auth/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/auth/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_app/reports': {
+      id: '/_app/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AppReportsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/organization': {
+      id: '/_app/organization'
+      path: '/organization'
+      fullPath: '/organization'
+      preLoaderRoute: typeof AppOrganizationRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/maintenance': {
+      id: '/_app/maintenance'
+      path: '/maintenance'
+      fullPath: '/maintenance'
+      preLoaderRoute: typeof AppMaintenanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/bookings': {
+      id: '/_app/bookings'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof AppBookingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/audit': {
+      id: '/_app/audit'
+      path: '/audit'
+      fullPath: '/audit'
+      preLoaderRoute: typeof AppAuditRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/assets': {
+      id: '/_app/assets'
+      path: '/assets'
+      fullPath: '/assets'
+      preLoaderRoute: typeof AppAssetsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/activity': {
+      id: '/_app/activity'
+      path: '/activity'
+      fullPath: '/activity'
+      preLoaderRoute: typeof AppActivityRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
 
+interface AppRouteChildren {
+  AppActivityRoute: typeof AppActivityRoute
+  AppAssetsRoute: typeof AppAssetsRoute
+  AppAuditRoute: typeof AppAuditRoute
+  AppBookingsRoute: typeof AppBookingsRoute
+  AppMaintenanceRoute: typeof AppMaintenanceRoute
+  AppOrganizationRoute: typeof AppOrganizationRoute
+  AppReportsRoute: typeof AppReportsRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppActivityRoute: AppActivityRoute,
+  AppAssetsRoute: AppAssetsRoute,
+  AppAuditRoute: AppAuditRoute,
+  AppBookingsRoute: AppBookingsRoute,
+  AppMaintenanceRoute: AppMaintenanceRoute,
+  AppOrganizationRoute: AppOrganizationRoute,
+  AppReportsRoute: AppReportsRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
+interface AuthRouteChildren {
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  ActivityRoute: ActivityRoute,
-  AssetsRoute: AssetsRoute,
-  AuditRoute: AuditRoute,
-  BookingsRoute: BookingsRoute,
-  MaintenanceRoute: MaintenanceRoute,
-  ReportsRoute: ReportsRoute,
+  AppRoute: AppRouteWithChildren,
+  AuthRoute: AuthRouteWithChildren,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
